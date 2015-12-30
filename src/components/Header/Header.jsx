@@ -11,7 +11,7 @@ export default React.createClass({
           <a className="title" href="/">
             <h1>
               <div className="imageContainer">
-                <img src="/assets/logo.png" alt="Jumpstart" />
+                <img src="assets/logo.png" alt="Jumpstart" />
               </div>
             </h1>
           </a>
