@@ -1,7 +1,13 @@
 var path = require('path');
 var webpack = require('webpack');
 
-var buildEnv = process.env.BUILD || 'dev';
+var isProdBuild = process.argv.indexOf('-p') !== -1;
+
+var envPlugin = new webpack.DefinePlugin({
+  __DEBUG__: JSON.stringify(!isProdBuild),
+  __RELEASE__: JSON.stringify(isProdBuild),
+  'process.env.NODE_ENV': isProdBuild ? '"production"' : '"development"'
+});
 
 module.exports = {
   entry: {
@@ -27,5 +33,5 @@ module.exports = {
       { test: /\.raw\.less$/, loader: 'raw!less'},
     ]
   },
-  plugins: [new webpack.HotModuleReplacementPlugin()]
+  plugins: [new webpack.HotModuleReplacementPlugin(), envPlugin]
 };

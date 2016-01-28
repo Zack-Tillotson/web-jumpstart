@@ -3,14 +3,19 @@ import ThunkMiddleware from 'redux-thunk';
 import LoggerMiddleware from 'redux-logger';
 import rootReducer from './reducer';
 
+const middleware = [
+  ThunkMiddleware
+];
+
+if(__DEBUG__) {
+  middleware.push(LoggerMiddleware({
+    level: 'info',
+    predicate: (state, action) => true
+  }));
+}
+
 const finalCreateStore = compose(
-  applyMiddleware(
-    ThunkMiddleware,
-    LoggerMiddleware({
-      level: 'info',
-      predicate: (state, action) => true
-    })
-  )
+  applyMiddleware(...middleware)
 )(createStore);
 
 export default function configureStore(initialState) {

@@ -23,7 +23,8 @@ export default React.createClass({
                 ⓧ
               </div>
             </Link>
-          ) || (
+          )}
+          {!this.props.preferencesOpen && (
             <Link to="/preferences">
               <div className="prefLink">
                 ☰
