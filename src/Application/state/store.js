@@ -1,15 +1,7 @@
 import { createStore, applyMiddleware, combineReducers, compose } from 'redux';
 import ThunkMiddleware from 'redux-thunk';
 import LoggerMiddleware from 'redux-logger';
-import DevTools from '../DevTools';
-import {persistState} from 'redux-devtools';
 import rootReducer from './reducer';
-
-function getDebugSessionKey() {
-  // By default we try to read the key from ?debug_session=<key> in the address bar
-  const matches = window.location.href.match(/[?&]debug_session=([^&]+)\b/);
-  return (matches && matches.length > 0)? matches[1] : null;
-}
 
 const finalCreateStore = compose(
   applyMiddleware(
@@ -18,9 +10,7 @@ const finalCreateStore = compose(
       level: 'info',
       predicate: (state, action) => true
     })
-  ),
-  DevTools.instrument(),
-  persistState(getDebugSessionKey())
+  )
 )(createStore);
 
 export default function configureStore(initialState) {
