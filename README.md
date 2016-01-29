@@ -16,6 +16,11 @@ npm start
 open http://localhost:8888/
 ```
 
+Note you might have to global install webpack-dev-server if you haven't already.
+```
+npm install -g webpack-dev-server
+```
+
 ## Description
 
 Boilerplate for my react/redux based web applications which use firebase as a backend.
