@@ -11,7 +11,8 @@ var envPlugin = new webpack.DefinePlugin({
 
 module.exports = {
   entry: {
-    app: './src/index.js'
+    app: './src/index.js',
+    tests: './src/tests.js'
   },
   output: {
     filename: '[name].js',

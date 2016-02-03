@@ -14,7 +14,6 @@ const Homepage = React.createClass({
         <h1>Web Jumpstart</h1>
         <Link to="/preferences">Preferences</Link>
         {this.props.children}
-
       </InlineCss>
     );
   }

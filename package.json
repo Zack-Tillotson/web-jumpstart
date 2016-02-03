@@ -4,7 +4,8 @@
   "description": "Webstack quickstart - React, Redux, Babel, Webpack, Firebase",
   "scripts": {
     "start": "webpack-dev-server --port 8888 --content-base app/ --inline --display-reasons --display-error-details",
-    "build": "webpack -p"
+    "build": "webpack -p",
+    "test": "webpack && JASMINE_CONFIG_PATH=jasmine.config.json jasmine app/assets/tests.js"
   },
   "author": "Zack Tillotson",
   "license": "ISC",
@@ -32,9 +33,10 @@
     "redux-thunk": "^1.0.3",
     "reselect": "^2.0.1",
     "webpack": "^1.12.9",
-    "webpack-dev-server": "^1.14.0"
+    "webpack-dev-server": "^1.14.0",
+    "babel-preset-stage-0": "^6.3.13"
   },
   "devDependencies": {
-    "babel-preset-stage-0": "^6.3.13"
+    "react-addons-test-utils": "^0.14.7"
   }
 }
