@@ -37,6 +37,9 @@ module.exports = {
   plugins: [new webpack.HotModuleReplacementPlugin(), envPlugin],
   devServer: {
     proxy: {
+      '/tests/': {
+        target: 'http://localhost:8888/tests/index.html'
+      },
       '/*/$': {
         target: 'http://localhost:8888/index.html',
         ignorePath: true
