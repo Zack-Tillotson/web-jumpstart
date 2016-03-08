@@ -26,7 +26,9 @@ const Application = React.createClass({
       <Router history={browserHistory}>
         <Route path="/" component={Page}>
           <IndexRoute component={Homepage} />
-          <Route path="preferences" component={Preferences} />
+          <Route path="preferences">
+            <IndexRoute component={Preferences} />
+          </Route>
         </Route>
       </Router>
     );

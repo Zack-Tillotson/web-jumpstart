@@ -13,7 +13,7 @@ export default React.createClass({
           <Link to="/">
             <h1>
               <div className="imageContainer">
-                <img src="assets/logo.png" alt="Jumpstart" />
+                <img src="/assets/logo.png" alt="Jumpstart" />
               </div>
             </h1>
           </Link>
@@ -25,7 +25,7 @@ export default React.createClass({
             </Link>
           )}
           {!this.props.preferencesOpen && (
-            <Link to="/preferences">
+            <Link to="/preferences/">
               <div className="prefLink">
                 ☰
               </div>

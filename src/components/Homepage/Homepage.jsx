@@ -12,7 +12,7 @@ const Homepage = React.createClass({
     return (
       <InlineCss stylesheet={styles} componentName="container">
         <h1>Web Jumpstart</h1>
-        <Link to="/preferences">Preferences</Link>
+        <Link to="/preferences/">Preferences</Link>
         {this.props.children}
       </InlineCss>
     );

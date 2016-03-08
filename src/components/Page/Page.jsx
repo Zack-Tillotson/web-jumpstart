@@ -10,7 +10,7 @@ import Footer from '../Footer';
 const Page = React.createClass({
 
   isPreferencesOpen() {
-    return this.props.location.pathname == '/preferences';
+    return this.props.location.pathname == '/preferences/';
   },
 
   render() {
