@@ -22,7 +22,7 @@ const templatePlugin = new HtmlWebpackPlugin({
   },
 });
 
-module.exports = {
+const config = {
   mode: isProdBuild ? 'production' : 'development',
   entry: {
     'assets/app': './src/index.js',
@@ -30,7 +30,7 @@ module.exports = {
   output: {
     filename: '[name]-[hash].js',
     path: path.join(__dirname, 'app'),
-    publicPath: 'http://localhost:8888/' // Required for webpack-serve
+    publicPath: isProdBuild ? '/' : 'http://localhost:8888/' // Required for webpack-serve
   },
   resolve: {
     modules: ['node_modules', './src'],
@@ -63,7 +63,10 @@ module.exports = {
     envPlugin,
     templatePlugin,
   ],
-  serve: {
+};
+
+if(!isProdBuild) {
+  config.serve = {
     content: "./app",
     add: function(app, middleware, options) {
       // since we're manipulating the order of middleware added, we need to handle
@@ -74,4 +77,6 @@ module.exports = {
       app.use(serve('./app'));
     }
   }
-};
+}
+
+module.exports = config;
