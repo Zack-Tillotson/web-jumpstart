@@ -1,16 +1,13 @@
 import React from 'react';
-import InlineCss from 'react-inline-css';
 import styles from './styles';
 
-const Body = React.createClass({
+const Body = function({children}) {
 
-  render() {
-    return (
-      <InlineCss stylesheet={styles} componentName="component">
-        {this.props.children}
-      </InlineCss>
-    );
-  }
-});
+  return (
+    <main className="main-body">
+      {children}
+    </main>
+  );
+}
 
 export default Body;

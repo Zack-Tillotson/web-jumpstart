@@ -1,9 +1,0 @@
-{
-  "spec_dir": "app",
-  "spec_files": [
-  ],
-  "helpers": [
-  ],
-  "stopSpecOnExpectationFailure": false,
-  "random": false
-}

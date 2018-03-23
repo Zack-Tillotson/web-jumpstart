@@ -1,49 +1,77 @@
-var path = require('path');
-var webpack = require('webpack');
+const path = require('path');
+const webpack = require('webpack');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const serve = require('koa-static');
+const rewrite = require('koa-rewrite');
 
-var isProdBuild = process.argv.indexOf('-p') !== -1;
+const isProdBuild = process.argv.indexOf('-p') !== -1;
 
-var envPlugin = new webpack.DefinePlugin({
+const envPlugin = new webpack.DefinePlugin({
   __DEBUG__: JSON.stringify(!isProdBuild),
   __RELEASE__: JSON.stringify(isProdBuild),
   'process.env.NODE_ENV': isProdBuild ? '"production"' : '"development"'
 });
 
+const templatePlugin = new HtmlWebpackPlugin({
+  template : './src/index.html',
+  hash     : false,
+  filename : 'index.html',
+  inject   : 'body',
+  minify   : {
+    collapseWhitespace : true
+  },
+});
+
 module.exports = {
+  mode: isProdBuild ? 'production' : 'development',
   entry: {
-    app: './src/index.js',
-    tests: './src/tests.js'
+    'assets/app': './src/index.js',
   },
   output: {
-    filename: '[name].js',
-    path: path.join(__dirname, 'app/assets'),
-    publicPath: 'http://localhost:8080/assets' // Required for webpack-dev-server
+    filename: '[name]-[hash].js',
+    path: path.join(__dirname, 'app'),
+    publicPath: 'http://localhost:8888/' // Required for webpack-serve
   },
   resolve: {
-    root: [
-      __dirname
-    ],
-    extensions: ['', '.js', '.jsx', '.raw.less']
+    modules: ['node_modules', './src'],
+    extensions: ['.js', '.jsx', '.scss']
   },
   node: {
     fs: "empty"
   },
   module: {
-    loaders: [
-      { test: /\.jsx?$/, loader: 'babel', exclude: /node_modules/ },
-      { test: /\.raw\.less$/, loader: 'raw!less'},
+    rules: [
+      {
+        test: /\.jsx?$/,
+        loader: 'babel-loader',
+        exclude: /node_modules/,
+        options: {
+          presets: ['es2015'],
+        },
+      },
+      {
+        test: /\.scss$/,
+        use: [
+          { loader: 'style-loader' },
+          { loader: 'css-loader' },
+          { loader: 'sass-loader' },
+        ],
+      },
     ]
   },
-  plugins: [new webpack.HotModuleReplacementPlugin(), envPlugin],
-  devServer: {
-    proxy: {
-      '/tests/': {
-        target: 'http://localhost:8888/tests/index.html'
-      },
-      '/*/$': {
-        target: 'http://localhost:8888/index.html',
-        ignorePath: true
-      }
+  plugins: [
+    envPlugin,
+    templatePlugin,
+  ],
+  serve: {
+    content: "./app",
+    add: function(app, middleware, options) {
+      // since we're manipulating the order of middleware added, we need to handle
+      // adding these two internal middleware functions.
+      middleware.webpack();
+      middleware.content();
+
+      app.use(serve('./app'));
     }
   }
 };

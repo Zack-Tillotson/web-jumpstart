@@ -1,4 +1,4 @@
 import {combineReducers} from 'redux';
-import firebase from '../../firebase/reducer';
+import firebase from 'firebase/reducer';
 
 export default combineReducers({firebase});

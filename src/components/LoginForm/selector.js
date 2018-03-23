@@ -1,5 +1,3 @@
-import firebaseSelector from '../../firebase/selector';
+import firebaseSelector from 'firebase/selector';
 
-export default state => {
-  return firebaseSelector(state);
-}
+export default firebaseSelector;

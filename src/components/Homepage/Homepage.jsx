@@ -1,22 +1,18 @@
 import React from 'react';
-import InlineCss from "react-inline-css";
 
-import {Link} from 'react-router';
+import {Link} from 'react-router-dom';
 import Preferences from '../Preferences';
 
-import styles from './styles';
+import './styles';
 
-const Homepage = React.createClass({
-
-  render() {
-    return (
-      <InlineCss stylesheet={styles} componentName="container">
-        <h1>Web Jumpstart</h1>
-        <Link to="/preferences/">Preferences</Link>
-        {this.props.children}
-      </InlineCss>
-    );
-  }
-});
+const Homepage = function({children}) {
+  return (
+    <div>
+      <h1>Web Jumpstart</h1>
+      <Link to="/preferences/">Preferences</Link>
+      {children}
+    </div>
+  );
+}
 
 export default Homepage;

@@ -1,30 +1,28 @@
 import { createStore, applyMiddleware, combineReducers, compose } from 'redux';
-import ThunkMiddleware from 'redux-thunk';
-import LoggerMiddleware from 'redux-logger';
-import rootReducer from './reducer';
+import createSagaMiddleware from 'redux-saga';
+import { createLogger } from 'redux-logger';
+import rootReducer from './rootReducer';
+
+import firebaseSagas from '../../firebase/sagas';
+
+const sagaMiddleware = createSagaMiddleware();
 
 const middleware = [
-  ThunkMiddleware
+  sagaMiddleware,
 ];
 
 if(__DEBUG__) {
-  middleware.push(LoggerMiddleware({
-    level: 'info',
-    predicate: (state, action) => true
-  }));
+  middleware.unshift(createLogger());
 }
 
-const finalCreateStore = compose(
-  applyMiddleware(...middleware)
-)(createStore);
-
 export default function configureStore(initialState) {
-  const store = finalCreateStore(rootReducer, initialState);
+  const store = createStore(rootReducer, applyMiddleware(...middleware), initialState);
+  firebaseSagas.forEach(saga => sagaMiddleware.run(saga));
 
   // Hot reload reducers (requires Webpack or Browserify HMR to be enabled)
   if (module.hot) {
-    module.hot.accept('./reducer', () =>
-      store.replaceReducer(require('./reducer')/*.default if you use Babel 6+ */)
+    module.hot.accept('./rootReducer', () =>
+      store.replaceReducer(require('./rootReducer').default)
     );
   }
 

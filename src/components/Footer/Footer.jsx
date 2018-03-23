@@ -1,15 +1,10 @@
 import React from 'react';
-import InlineCss from "react-inline-css";
-import styles from './styles.raw.less';
+import styles from './styles';
 
-export default React.createClass({
-  render() {
-    return (
-      <InlineCss stylesheet={styles} componentName="container">
-        <footer>
-          <a href="http://ZacheryTillotson.com">Created by Zack Tillotson</a>
-        </footer>
-      </InlineCss>
-    );
-  }
-});
+export default function() {
+  return (
+    <footer>
+      <a href="http://ZacheryTillotson.com">Created by Zack Tillotson</a>
+    </footer>
+  );
+}

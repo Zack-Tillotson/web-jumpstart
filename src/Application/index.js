@@ -1,2 +1,2 @@
-import Provider from './Provider';
-export default Provider;
+import Component from './Provider';
+export default Component;

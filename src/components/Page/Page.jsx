@@ -1,29 +1,29 @@
-import React from 'react';
+import React, {Fragment} from 'react';
+import { withRouter } from 'react-router';
 
-import InlineCss from 'react-inline-css';
-import styles from './styles';
+import './styles';
 
 import Header from '../Header';
 import Body from '../Body';
 import Footer from '../Footer';
 
-const Page = React.createClass({
+class Page extends React.Component {
 
   isPreferencesOpen() {
     return this.props.location.pathname == '/preferences/';
-  },
+  }
 
   render() {
     return (
-      <InlineCss stylesheet={styles} componentName="component">
+      <Fragment>
         <Header preferencesOpen={this.isPreferencesOpen()}/>
         <Body>
           {this.props.children}
         </Body>
         <Footer />
-      </InlineCss>
+      </Fragment>
     );
   }
-});
+}
 
-export default Page;
+export default withRouter(Page);

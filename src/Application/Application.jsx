@@ -1,38 +1,37 @@
 import React from 'react';
 import {connect} from 'react-redux';
 
-import { Router, Route, IndexRoute, browserHistory } from 'react-router';
+import { Route } from 'react-router';
+import { BrowserRouter } from 'react-router-dom';
 
 import Page from '../components/Page';
 import Homepage from '../components/Homepage';
 import Preferences from '../components/Preferences';
 
 import firebase from '../firebase';
-import actions from '../firebase/actions';
+import dispatcher from '../firebase/dispatcher';
 
 const selector = (state) => {
   return {};
 }
 
-const Application = React.createClass({
+class Application extends React.Component {
 
   componentDidMount() {
-    this.props.firebase.monitorConnection();
-    this.props.firebase.syncData('/');
-  },
+    this.props.monitorConnection();
+    this.props.syncData('/');
+  }
 
   render() {
     return (
-      <Router history={browserHistory}>
-        <Route path="/" component={Page}>
-          <IndexRoute component={Homepage} />
-          <Route path="preferences">
-            <IndexRoute component={Preferences} />
-          </Route>
-        </Route>
-      </Router>
+      <BrowserRouter>
+        <Page>
+          <Route path="" exact component={Homepage} />
+          <Route path="/preferences/" exact component={Preferences} />
+        </Page>
+      </BrowserRouter>
     );
   }
-});
+}
 
-export default connect(selector, actions)(Application);
+export default connect(selector, dispatcher)(Application);

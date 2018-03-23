@@ -1,44 +1,31 @@
-import actions from '../actions';
-import firebase from './index';
+import actionTypes from './actionTypes';
+import { call, put } from 'redux-saga/effects';
+import firebase from './';
 
-// Don't use these methods directly, rather rhis dispatcher should be attached to a 'connected' component, ie:
-//
-// import actions from '../firebase/actions';
-// import actions from '../firebase/selector';
-// ...
-// export default connect(selector, actions)(Page);
-
-const dispatcher = (dispatch) => {
-
-  function dispatchData(data) {
-    dispatch({type: actions.firebase, ...data});
-  }
-
-  return {
-
-    firebase: {
-
-      monitorConnection() {
-        return firebase.syncConnection(dispatchData);
-      },
-
-      syncData(path) {
-        return firebase.syncData(dispatchData, path);
-      },
-
-      requestLogin(service) {
-        dispatch(() => {
-          firebase.requestAuth(service, (error) => {console.log("Firebase auth error!", error)});
-        });
-      },
-
-      requestLogout() {
-        dispatch(() => {
-          firebase.requestUnauth();
-        });
-      }
-    }
-  }
+function dataReceived(data) {
+  return {type: actionTypes.dataReceived, payload: {data}};
 }
 
-export default dispatcher;
+function syncConnection() {
+  return {type: actionTypes.syncConnection};
+}
+
+function syncData(path) {
+  return {type: actionTypes.syncData, payload: {path}};
+}
+
+function requestAuth(service) {
+  return {type: actionTypes.requestAuth, payload: {service}};
+}
+
+function requestUnauth(service) {
+  return {type: actionTypes.requestUnauth, payload: {service}};
+}
+
+export default {
+  dataReceived,
+  syncConnection,
+  syncData,
+  requestAuth,
+  requestUnauth,
+}
